@@ -11,6 +11,7 @@ import com.akexorcist.googledirection.GoogleDirection
 import com.akexorcist.googledirection.constant.AvoidType
 import com.akexorcist.googledirection.model.Direction
 import com.akexorcist.googledirection.model.Route
+import com.elabda3.tripstask.base.Event
 import com.elabda3.tripstask.base.NetworkException
 import com.elabda3.tripstask.base.NetworkResult
 import com.elabda3.tripstask.retrofitDataModel.TripData
@@ -27,7 +28,7 @@ import javax.inject.Inject
 class TripsViewModelImp @Inject constructor(var tripsNetworkImp: TripsNetworkImp) : ViewModel(), TripsViewModel {
 
     val progressLiveData: MutableLiveData<Boolean> = MutableLiveData()
-    val alertMessageLiveData: MutableLiveData<String> = MutableLiveData()
+    val alertMessageLiveData: MutableLiveData<Event<String>> = MutableLiveData()
     val tripLoaded: MutableLiveData<TripData> = MutableLiveData()
     val routePoints: MutableLiveData<ArrayList<LatLng>> = MutableLiveData()
 
@@ -51,7 +52,7 @@ class TripsViewModelImp @Inject constructor(var tripsNetworkImp: TripsNetworkImp
                 is NetworkResult.Error -> {
                     progressLiveData.postValue(false)
                     if (!Strings.isEmptyOrWhitespace(result.exception.message) && result.exception is NetworkException) {
-                        alertMessageLiveData.postValue(result.exception.message)
+                        alertMessageLiveData.postValue(Event(result.exception.message!!))
                     }
                 }
                 is NetworkResult.NetworkOutCodes -> {
@@ -59,7 +60,7 @@ class TripsViewModelImp @Inject constructor(var tripsNetworkImp: TripsNetworkImp
                     progressLiveData.postValue(false)
                     val responseBody = result.response.errorBody()?.string()
                     val tripDataModel = Gson().fromJson(responseBody,TripDataModel::class.java)
-                    alertMessageLiveData.value = tripDataModel.message
+                    alertMessageLiveData.value = Event(tripDataModel.message)
                 }
             }
         }
@@ -81,7 +82,7 @@ class TripsViewModelImp @Inject constructor(var tripsNetworkImp: TripsNetworkImp
                 is NetworkResult.Error -> {
                     progressLiveData.postValue(false)
                     if (!TextUtils.isEmpty(result.exception.message) && result.exception is NetworkException) {
-                        alertMessageLiveData.postValue(result.exception.message)
+                        alertMessageLiveData.postValue(Event(result.exception.message!!))
                     }
                 }
                 is NetworkResult.NetworkOutCodes -> {
@@ -89,7 +90,7 @@ class TripsViewModelImp @Inject constructor(var tripsNetworkImp: TripsNetworkImp
                     progressLiveData.postValue(false)
                     val responseBody = result.response.errorBody()?.string()
                     val tripDataModel = Gson().fromJson(responseBody,TripDataModel::class.java)
-                    alertMessageLiveData.value = tripDataModel.message
+                    alertMessageLiveData.value = Event(tripDataModel.message)
                 }
             }
         }

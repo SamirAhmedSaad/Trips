@@ -56,7 +56,9 @@ class TripsActivity : BaseActivity<ActivityTripsBinding,TripsViewModelImp>(), On
         })
 
         viewModel.alertMessageLiveData.observe(this, Observer {
-            myToast(it)
+            it.getContentIfNotHandled()?.let {alert ->
+                myToast(alert)
+            }
         })
 
         viewModel.tripLoaded.observe(this, Observer {
