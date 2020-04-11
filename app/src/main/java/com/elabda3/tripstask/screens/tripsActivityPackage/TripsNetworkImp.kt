@@ -18,7 +18,9 @@ class TripsNetworkImp @Inject constructor() : TripsNetwork {
         val response = retrofitApi.getLatestTrip().await()
 
         if (response.isSuccessful) {
+
             if(response.body()?.status == 1) {
+
                 if(response.raw().cacheResponse != null) {
                     response.body()?.data?.fromCache = true
                     return@safeCall NetworkResult.Success(response.body())
@@ -26,11 +28,13 @@ class TripsNetworkImp @Inject constructor() : TripsNetwork {
                     response.body()?.data?.fromCache = false
                     return@safeCall NetworkResult.Success(response.body())
                 }
+
             }else{
                 return@safeCall NetworkResult.Error(NetworkException(response.body()?.message))
             }
+
         } else {
-            return@safeCall NetworkResult.Error(NetworkException(""))
+            return@safeCall NetworkResult.NetworkOutCodes(response)
         }
 
     }
@@ -40,7 +44,9 @@ class TripsNetworkImp @Inject constructor() : TripsNetwork {
         val response = retrofitApi.getTrip(id).await()
 
         if (response.isSuccessful) {
+
             if(response.body()?.status == 1) {
+
                 if(response.raw().cacheResponse != null) {
                     response.body()?.data?.fromCache = true
                     return@safeCall NetworkResult.Success(response.body())
@@ -48,11 +54,13 @@ class TripsNetworkImp @Inject constructor() : TripsNetwork {
                     response.body()?.data?.fromCache = false
                     return@safeCall NetworkResult.Success(response.body())
                 }
+
             }else{
                 return@safeCall NetworkResult.Error(NetworkException(response.body()?.message))
             }
+
         } else {
-            return@safeCall NetworkResult.Error(NetworkException(""))
+            return@safeCall NetworkResult.NetworkOutCodes(response)
         }
 
     }

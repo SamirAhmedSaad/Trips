@@ -14,6 +14,7 @@ import com.akexorcist.googledirection.model.Route
 import com.elabda3.tripstask.base.NetworkException
 import com.elabda3.tripstask.base.NetworkResult
 import com.elabda3.tripstask.retrofitDataModel.TripData
+import com.elabda3.tripstask.retrofitDataModel.TripDataModel
 import com.google.android.gms.common.util.Strings
 import com.google.android.gms.maps.model.LatLng
 import com.google.gson.Gson
@@ -53,6 +54,13 @@ class TripsViewModelImp @Inject constructor(var tripsNetworkImp: TripsNetworkImp
                         alertMessageLiveData.postValue(result.exception.message)
                     }
                 }
+                is NetworkResult.NetworkOutCodes -> {
+                    //handel codes 4xx
+                    progressLiveData.postValue(false)
+                    val responseBody = result.response.errorBody()?.string()
+                    val tripDataModel = Gson().fromJson(responseBody,TripDataModel::class.java)
+                    alertMessageLiveData.value = tripDataModel.message
+                }
             }
         }
     }
@@ -75,6 +83,13 @@ class TripsViewModelImp @Inject constructor(var tripsNetworkImp: TripsNetworkImp
                     if (!TextUtils.isEmpty(result.exception.message) && result.exception is NetworkException) {
                         alertMessageLiveData.postValue(result.exception.message)
                     }
+                }
+                is NetworkResult.NetworkOutCodes -> {
+                    //handel codes 4xx
+                    progressLiveData.postValue(false)
+                    val responseBody = result.response.errorBody()?.string()
+                    val tripDataModel = Gson().fromJson(responseBody,TripDataModel::class.java)
+                    alertMessageLiveData.value = tripDataModel.message
                 }
             }
         }
