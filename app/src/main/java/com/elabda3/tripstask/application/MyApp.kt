@@ -15,22 +15,8 @@ import javax.inject.Inject
 
 class MyApp : DaggerApplication() {
 
-    @Inject
-    lateinit var sharedPreferences: SharedPreferences
-
-    companion object {
-        const val themeKey = "theme"
-        var savedTheme:String = "black"
-    }
-
     override fun onCreate() {
         super.onCreate()
-
-        savedTheme = if (sharedPreferences.getString(themeKey,"black") == "black") {
-            "black"
-        } else {
-            "white"
-        }
 
         setFont()
 

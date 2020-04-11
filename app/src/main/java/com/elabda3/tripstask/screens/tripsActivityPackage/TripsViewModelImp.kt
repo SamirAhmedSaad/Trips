@@ -14,6 +14,7 @@ import com.akexorcist.googledirection.model.Route
 import com.elabda3.tripstask.base.NetworkException
 import com.elabda3.tripstask.base.NetworkResult
 import com.elabda3.tripstask.retrofitDataModel.TripData
+import com.google.android.gms.common.util.Strings
 import com.google.android.gms.maps.model.LatLng
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -22,15 +23,12 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
-class TripsViewModelImp @Inject constructor() : ViewModel(), TripsViewModel {
+class TripsViewModelImp @Inject constructor(var tripsNetworkImp: TripsNetworkImp) : ViewModel(), TripsViewModel {
 
     val progressLiveData: MutableLiveData<Boolean> = MutableLiveData()
     val alertMessageLiveData: MutableLiveData<String> = MutableLiveData()
     val tripLoaded: MutableLiveData<TripData> = MutableLiveData()
     val routePoints: MutableLiveData<ArrayList<LatLng>> = MutableLiveData()
-
-    @Inject
-    lateinit var TripsNetworkImp: TripsNetworkImp
 
     @Inject
     lateinit var context: Context
@@ -41,8 +39,7 @@ class TripsViewModelImp @Inject constructor() : ViewModel(), TripsViewModel {
     override fun getLatestTrip() {
         viewModelScope.launch {
             progressLiveData.postValue(true)
-
-            when (val result = TripsNetworkImp.getLatestTrip()) {
+            when (val result = tripsNetworkImp.getLatestTrip()) {
                 is NetworkResult.Success -> {
                     progressLiveData.postValue(false)
                     result.responseData?.data?.let {
@@ -52,7 +49,7 @@ class TripsViewModelImp @Inject constructor() : ViewModel(), TripsViewModel {
                 }
                 is NetworkResult.Error -> {
                     progressLiveData.postValue(false)
-                    if (!TextUtils.isEmpty(result.exception.message) && result.exception is NetworkException) {
+                    if (!Strings.isEmptyOrWhitespace(result.exception.message) && result.exception is NetworkException) {
                         alertMessageLiveData.postValue(result.exception.message)
                     }
                 }
@@ -65,7 +62,7 @@ class TripsViewModelImp @Inject constructor() : ViewModel(), TripsViewModel {
         viewModelScope.launch {
             progressLiveData.postValue(true)
 
-            when (val result = TripsNetworkImp.getTrip(id)) {
+            when (val result = tripsNetworkImp.getTrip(id)) {
                 is NetworkResult.Success -> {
                     progressLiveData.postValue(false)
                     result.responseData?.data?.let {
@@ -119,7 +116,7 @@ class TripsViewModelImp @Inject constructor() : ViewModel(), TripsViewModel {
             })
     }
 
-    private fun handelCacheRoute(it: TripData) {
+    public fun handelCacheRoute(it: TripData) {
         if (it.fromCache) {
             val stepsJson = sharedPreferences.getString("${it.id}", "")
             if (!TextUtils.isEmpty(stepsJson)) {
