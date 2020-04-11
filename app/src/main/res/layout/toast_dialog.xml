@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/round_blue"
+        android:layout_margin="@dimen/margin_5">
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_10"
+            android:id="@+id/toastMsg"
+            android:textSize="@dimen/text_size_large"
+            style="@style/textParent"
+            android:gravity="center"/>
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/margin_10"
+            android:layout_margin="@dimen/margin_5"
+            android:background="@drawable/round_white"
+            android:gravity="center"
+            style="@style/buttonText"
+            android:textColor="@color/black"
+            android:foreground="@drawable/ripple_round"
+            android:id="@+id/toastBtn"
+            android:text="@string/ok"/>
+
+</LinearLayout>

@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Trips</string>
+    <string name="ok">Ok</string>
+    <string name="repositories">Trips</string>
+    <string name="noConnection">No connectivity</string>
+    <string name="previous">Previous</string>
+    <string name="next">Next</string>
+</resources>

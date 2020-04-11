@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="headTextColor" format="reference"/>
+    <attr name="descTextColor" format="reference"/>
+    <attr name="defaultTextColor" format="reference"/>
+
+    <attr name="backgroundColor" format="reference"/>
+    <attr name="recyclerBackgroundColor" format="reference"/>
+    <attr name="iconsTintColor" format="reference"/>
+
+</resources>

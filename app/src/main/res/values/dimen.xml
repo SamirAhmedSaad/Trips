@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="margin_5">@dimen/_5sdp</dimen>
+    <dimen name="margin_10">@dimen/_10sdp</dimen>
+    <dimen name="margin_15">@dimen/_15sdp</dimen>
+    <dimen name="margin_20">@dimen/_20sdp</dimen>
+    <dimen name="margin_30">@dimen/_30sdp</dimen>
+    <dimen name="margin_50">@dimen/_50sdp</dimen>
+
+
+    <dimen name="text_size_default">@dimen/_11ssp</dimen>
+    <dimen name="text_size_small">@dimen/_10ssp</dimen>
+    <dimen name="text_size_small_bold">@dimen/_9ssp</dimen>
+    <dimen name="text_size_large">@dimen/_18ssp</dimen>
+    <dimen name="editTextSize">@dimen/_11ssp</dimen>
+    <dimen name="buttonTextSize">@dimen/_12ssp</dimen>
+
+
+
+
+</resources>

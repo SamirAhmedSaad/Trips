@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+                name="viewModel"
+                type="com.elabda3.tripstask.screens.tripsActivityPackage.TripsViewModel" />
+
+        <variable
+                name="trip"
+                type="com.elabda3.tripstask.retrofitDataModel.TripData" />
+
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/whiteGray">
+
+
+        <com.google.android.material.appbar.AppBarLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <include
+                    layout="@layout/toolbar"
+                    app:title="@{`Trip Details`}" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <androidx.cardview.widget.CardView
+                    android:id="@+id/tripDetailsCard"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_5"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:layout_marginEnd="@dimen/margin_5"
+                    app:cardBackgroundColor="@color/blue"
+                    app:cardCornerRadius="@dimen/margin_5"
+                    app:layout_constraintEnd_toStartOf="@+id/centerGuide"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin_5">
+
+                    <ImageView
+                            android:id="@+id/statusImg"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_marginTop="@dimen/margin_5"
+                            android:layout_marginBottom="@dimen/margin_5"
+                            android:src="@drawable/ic_status_trip"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                            android:id="@+id/fromLocationName"
+                            style="@style/smallText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{trip.pickName}"
+                            app:layout_constrainedWidth="true"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0"
+                            app:layout_constraintStart_toEndOf="@+id/statusImg"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="from location" />
+
+                    <View
+                            android:id="@+id/line"
+                            android:layout_width="0dp"
+                            android:layout_height="0.5dp"
+                            android:layout_marginStart="@dimen/margin_10"
+                            android:layout_marginTop="@dimen/margin_5"
+                            android:layout_marginEnd="@dimen/margin_10"
+                            android:background="@color/white"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/statusImg"
+                            app:layout_constraintTop_toBottomOf="@+id/fromLocationName" />
+
+                    <TextView
+                            android:id="@+id/toLocationName"
+                            style="@style/smallText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_5"
+                            android:text="@{trip.destinationName}"
+                            app:layout_constrainedWidth="true"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0"
+                            app:layout_constraintStart_toEndOf="@+id/statusImg"
+                            app:layout_constraintTop_toBottomOf="@+id/line"
+                            tools:text="from location" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+
+            <fragment
+                    android:id="@+id/mapFragment"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/centerGuide"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+            <ImageButton
+                    android:id="@+id/firstTrip"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_margin="@dimen/margin_10"
+                    android:background="@drawable/round_blue"
+                    android:onClick="@{()-> viewModel.getTrip(trip.firstId) }"
+                    android:src="@drawable/ic_first_trip_arrow"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/previousTrip"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintHorizontal_chainStyle="spread_inside"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tripDetailsCard" />
+
+            <Button
+                    android:id="@+id/previousTrip"
+                    style="@style/buttonText"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:onClick="@{()-> viewModel.getTrip(trip.previousId) }"
+                    android:text="@string/previous"
+                    app:layout_constraintBottom_toBottomOf="@+id/firstTrip"
+                    app:layout_constraintEnd_toStartOf="@+id/nextTrip"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/firstTrip"
+                    app:layout_constraintTop_toTopOf="@+id/firstTrip" />
+
+            <Button
+                    android:id="@+id/nextTrip"
+                    style="@style/buttonText"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:onClick="@{()-> viewModel.getTrip(trip.nextId) }"
+                    android:text="@string/next"
+                    app:layout_constraintBottom_toBottomOf="@+id/lastTrip"
+                    app:layout_constraintEnd_toStartOf="@+id/lastTrip"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/previousTrip"
+                    app:layout_constraintTop_toTopOf="@+id/lastTrip" />
+
+            <ImageButton
+                    android:id="@+id/lastTrip"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_margin="@dimen/margin_10"
+                    android:background="@drawable/round_blue"
+                    android:onClick="@{()-> viewModel.getTrip(trip.lastId)}"
+                    android:src="@drawable/ic_last_trip_arrow"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/centerGuide"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/nextTrip"
+                    app:layout_constraintTop_toBottomOf="@+id/tripDetailsCard" />
+
+            <androidx.constraintlayout.widget.Barrier
+                    android:id="@+id/btnBarrier"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:barrierDirection="top"
+                    app:constraint_referenced_ids="previousTrip,nextTrip,firstTrip,lastTrip" />
+
+            <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/centerGuide"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.5" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</layout>
